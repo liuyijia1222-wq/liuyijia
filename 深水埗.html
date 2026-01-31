@@ -1,0 +1,968 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="zh-CN"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;深水埗 - 电影制作管理系统&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.jsdelivr.net/npm/chart.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* 自定义动画 */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.fade-in {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: fadeIn 0.6s ease-in-out;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fadeIn {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>from { opacity: 0; transform: translateY(20px); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>to { opacity: 1; transform: translateY(0); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hover-scale {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transition: transform 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.hover-scale:hover {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: scale(1.02);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* 时间线样式 */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.timeline-item::before {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>content: '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateX(-50%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 2px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: linear-gradient(to bottom, #f59e0b, #ef4444);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.timeline-dot {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>left: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transform: translateX(-50%);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #f59e0b;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 3px solid white;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 0 0 3px #f59e0b;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 导航栏 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;nav class="fixed top-0 w-full bg-white shadow-md z-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="container mx-auto px-6 py-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h1 class="text-2xl font-bold text-gray-800"&gt;深水埗 制作管理系统&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="hidden md:flex space-x-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#overview" class="text-gray-600 hover:text-amber-500 transition"&gt;项目概览&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#budget" class="text-gray-600 hover:text-amber-500 transition"&gt;预算管理&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#crew" class="text-gray-600 hover:text-amber-500 transition"&gt;人员组织&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#schedule" class="text-gray-600 hover:text-amber-500 transition"&gt;拍摄日程&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;a href="#travel" class="text-gray-600 hover:text-amber-500 transition"&gt;交通安排&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button id="mobile-menu-btn" class="md:hidden text-gray-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"&gt;&lt;/path&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/nav&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 移动端菜单 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="mobile-menu" class="fixed top-16 left-0 w-full bg-white shadow-lg transform -translate-x-full transition-transform md:hidden z-40"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="py-4 px-6 space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#overview" class="block text-gray-600 hover:text-amber-500"&gt;项目概览&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#budget" class="block text-gray-600 hover:text-amber-500"&gt;预算管理&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#crew" class="block text-gray-600 hover:text-amber-500"&gt;人员组织&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#schedule" class="block text-gray-600 hover:text-amber-500"&gt;拍摄日程&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;a href="#travel" class="block text-gray-600 hover:text-amber-500"&gt;交通安排&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 主内容区 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;main class="pt-20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 项目概览 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="overview" class="py-16 bg-gradient-to-br from-gray-900 to-gray-700 text-white"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="container mx-auto px-6 fade-in"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h2 class="text-4xl md:text-5xl font-bold mb-4"&gt;《深水埗》&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-xl mb-8 text-gray-200"&gt;电影制作全流程管理系统&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="text-3xl mb-2"&gt;📅&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="text-xl font-semibold mb-2"&gt;拍摄周期&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-gray-200"&gt;2026.2.21 - 2026.3.3&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="text-3xl mb-2"&gt;🎬&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="text-xl font-semibold mb-2"&gt;拍摄地点&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-gray-200"&gt;河南驻马店 + 香港&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="text-3xl mb-2"&gt;💰&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="text-xl font-semibold mb-2"&gt;总预算&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p class="text-gray-200"&gt;¥24,430&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 预算管理 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="budget" class="py-16 bg-white"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="container mx-auto px-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-3xl font-bold text-center mb-12 text-gray-800"&gt;预算管理&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- 预算总览卡片 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-red-50 rounded-lg p-6 border-l-4 border-red-500 hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3 class="text-lg font-semibold text-gray-800 mb-2"&gt;交通费用&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-2xl font-bold text-red-600"&gt;¥3,722&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-sm text-gray-600"&gt;占比 15.2%&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-blue-50 rounded-lg p-6 border-l-4 border-blue-500 hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3 class="text-lg font-semibold text-gray-800 mb-2"&gt;设备费用&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-2xl font-bold text-blue-600"&gt;¥6,000&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-sm text-gray-600"&gt;占比 24.5%&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-green-50 rounded-lg p-6 border-l-4 border-green-500 hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3 class="text-lg font-semibold text-gray-800 mb-2"&gt;场地服装道具&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-2xl font-bold text-green-600"&gt;¥7,100&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-sm text-gray-600"&gt;占比 29.1%&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-amber-50 rounded-lg p-6 border-l-4 border-amber-500 hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3 class="text-lg font-semibold text-gray-800 mb-2"&gt;其他费用&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-2xl font-bold text-amber-600"&gt;¥7,608&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-sm text-gray-600"&gt;占比 31.1%&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- 预算图表 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-gray-50 rounded-lg p-8 hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-xl font-semibold mb-6 text-gray-800"&gt;预算分配饼图&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="w-full max-w-md mx-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;canvas id="budgetChart"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- 详细预算表 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mt-12 bg-gray-50 rounded-lg overflow-hidden hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-gray-800 text-white px-6 py-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3 class="text-xl font-semibold"&gt;详细预算清单&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="overflow-x-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;table class="min-w-full"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;thead class="bg-gray-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;类别&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;项目&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;金额&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;备注&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;tbody class="bg-white divide-y divide-gray-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap"&gt;交通&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;各地往返驻马店&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 font-medium"&gt;¥3,722&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;含各地人员交通费&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap"&gt;设备&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;河南设备预算&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 font-medium"&gt;¥5,000&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;摄影灯光等设备&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap"&gt;设备&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;香港设备预算&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 font-medium"&gt;¥1,000&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;香港拍摄设备&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap"&gt;场地&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;金圣舞厅KTV&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 font-medium"&gt;¥3,600&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;主要拍摄场地&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap"&gt;服装道具&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;服化道总预算&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 font-medium"&gt;¥3,500&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;含摩托车租赁&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap"&gt;住宿&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;香港酒店（三天两晚）&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 font-medium"&gt;¥2,000&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;田梦圆、杨昕钥、肖睿、马依、女主、男主&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap"&gt;餐水&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;河南餐水&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 font-medium"&gt;¥3,000&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;团队A，餐标40&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap"&gt;其他&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;备用金&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 font-medium"&gt;¥3,000&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;其他杂费&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 人员组织 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="crew" class="py-16 bg-gray-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="container mx-auto px-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-3xl font-bold text-center mb-12 text-gray-800"&gt;人员组织&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- 部门标签 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex flex-wrap justify-center gap-4 mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="dept-btn active px-6 py-2 rounded-full bg-amber-500 text-white font-medium transition" data-dept="all"&gt;全部&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="dept-btn px-6 py-2 rounded-full bg-gray-300 text-gray-700 font-medium hover:bg-amber-500 hover:text-white transition" data-dept="director"&gt;导演部门&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="dept-btn px-6 py-2 rounded-full bg-gray-300 text-gray-700 font-medium hover:bg-amber-500 hover:text-white transition" data-dept="camera"&gt;摄影部门&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="dept-btn px-6 py-2 rounded-full bg-gray-300 text-gray-700 font-medium hover:bg-amber-500 hover:text-white transition" data-dept="post"&gt;后期部门&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="dept-btn px-6 py-2 rounded-full bg-gray-300 text-gray-700 font-medium hover:bg-amber-500 hover:text-white transition" data-dept="production"&gt;制片部门&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="dept-btn px-6 py-2 rounded-full bg-gray-300 text-gray-700 font-medium hover:bg-amber-500 hover:text-white transition" data-dept="art"&gt;美术部门&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button class="dept-btn px-6 py-2 rounded-full bg-gray-300 text-gray-700 font-medium hover:bg-amber-500 hover:text-white transition" data-dept="writer"&gt;编剧部门&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- 人员卡片网格 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="crew-grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;!-- 导演部门 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="director"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;导&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;田梦圆&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;导演&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 tianmengyuan@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0001&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="director"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;副&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;张歆若&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;副导演&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 zhangxinruo@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0002&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="director"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;场&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;马依&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;场记/DIT&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 mayi@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0003&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;!-- 摄影部门 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="camera"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;摄&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;张歆若&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;摄影&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 zhangxinruo@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0002&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="camera"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;指&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;刘昱辰&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;摄影指导&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 liuyuchen@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0004&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;!-- 后期部门 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="post"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;剪&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;刘艺佳&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;剪辑&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 liuyijia@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0005&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="post"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;助&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;肖睿&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;剪辑助理&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 xiaorui@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0006&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="post"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;助&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;田梦圆&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;剪辑助理&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 tianmengyuan@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0001&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;!-- 制片部门 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="production"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;设&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;马依&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;设备制片&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 mayi@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0003&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="production"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;生&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;杨昕钥&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;生活制片&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 yangxinyao@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0007&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="production"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;选&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;董洁&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;选角制片&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 dongjie@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0008&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;!-- 美术部门 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="art"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;策&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;田梦圆&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;美术策划&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 tianmengyuan@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0001&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="art"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;执&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;董洁&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;美术执行&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 dongjie@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0008&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;!-- 编剧部门 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="writer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;总&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;田梦圆&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;总编剧&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 tianmengyuan@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0001&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="writer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;编&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;张歆若&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;编剧&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 zhangxinruo@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0002&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;!-- 灯光部门 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="lighting"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;指&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;黄子芸&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;灯光指导/设计&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 huangziyun@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0009&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="lighting"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;助&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;杨昕钥&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;灯光助理&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 yangxinyao@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0007&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;!-- 录音部门 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="sound"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;录&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;肖睿&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;录音&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 xiaorui@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0006&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;!-- 演员 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="cast"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;女&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;武冰琪&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;女主角&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 wubingqi@example.com&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 138-0000-0010&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="crew-card bg-white rounded-lg shadow-md p-6 hover-scale" data-dept="cast"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg"&gt;男&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;待定&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;男主角&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="text-sm text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📧 待补充&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p&gt;📱 待补充&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 拍摄日程 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="schedule" class="py-16 bg-white"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="container mx-auto px-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-3xl font-bold text-center mb-12 text-gray-800"&gt;拍摄日程&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- 河南拍摄部分 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mb-16"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-2xl font-semibold mb-8 text-amber-600 flex items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="mr-3"&gt;📍&lt;/span&gt;河南驻马店拍摄计划</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/h3&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="relative"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="timeline-item relative pb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="timeline-dot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-gray-50 rounded-lg p-6 shadow-md hover-scale ml-auto w-full md:w-5/12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex justify-between items-start mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4 class="text-lg font-semibold text-gray-800"&gt;2026.2.13左右&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"&gt;准备阶段&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;购买道具，美术部门准备拍摄所需道具&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="timeline-item relative pb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="timeline-dot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-amber-50 rounded-lg p-6 shadow-md hover-scale mr-auto w-full md:w-5/12 md:text-right"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex justify-between items-start mb-4 md:flex-row-reverse"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4 class="text-lg font-semibold text-gray-800"&gt;2026.2.21&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded"&gt;堪景&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;部分团队到达河南驻马店&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500 mt-2"&gt;人员：田梦圆、杨昕钥、张歆若&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500"&gt;任务：提前堪景、布置&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="timeline-item relative pb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="timeline-dot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-blue-50 rounded-lg p-6 shadow-md hover-scale ml-auto w-full md:w-5/12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex justify-between items-start mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4 class="text-lg font-semibold text-gray-800"&gt;2026.2.23&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded"&gt;人员汇合&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;部分人员到达驻马店汇合&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500 mt-2"&gt;人员：黄子芸、马依、肖睿&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="timeline-item relative pb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="timeline-dot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-green-50 rounded-lg p-6 shadow-md hover-scale mr-auto w-full md:w-5/12 md:text-right"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex justify-between items-start mb-4 md:flex-row-reverse"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4 class="text-lg font-semibold text-gray-800"&gt;2026.2.23&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded"&gt;演员到达&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;演员/摄影指导到达驻马店&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500 mt-2"&gt;人员：女主武冰琪、男主（待定）、DP刘昱辰&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500"&gt;任务：提前到驻马店，剧本围读&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="timeline-item relative pb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="timeline-dot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-red-50 rounded-lg p-6 shadow-md hover-scale ml-auto w-full md:w-5/12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex justify-between items-start mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4 class="text-lg font-semibold text-gray-800"&gt;2026.2.24&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded"&gt;开机&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;正式开机拍摄&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500 mt-2"&gt;人员：全体人员&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="timeline-item relative pb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="timeline-dot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-purple-50 rounded-lg p-6 shadow-md hover-scale mr-auto w-full md:w-5/12 md:text-right"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex justify-between items-start mb-4 md:flex-row-reverse"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4 class="text-lg font-semibold text-gray-800"&gt;2026.2.25&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"&gt;拍摄&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;董洁到达，继续拍摄&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="timeline-item relative pb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="timeline-dot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-gray-50 rounded-lg p-6 shadow-md hover-scale ml-auto w-full md:w-5/12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex justify-between items-start mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4 class="text-lg font-semibold text-gray-800"&gt;2026.2.28&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded"&gt;杀青&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;河南杀青，道具组归还设备&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="timeline-item relative pb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="timeline-dot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-amber-50 rounded-lg p-6 shadow-md hover-scale mr-auto w-full md:w-5/12 md:text-right"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex justify-between items-start mb-4 md:flex-row-reverse"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4 class="text-lg font-semibold text-gray-800"&gt;2026.3.1&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded"&gt;收尾&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;张歆若、董洁、黄子芸退还设备道具&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- 香港拍摄部分 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="text-2xl font-semibold mb-8 text-amber-600 flex items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="mr-3"&gt;🎬&lt;/span&gt;香港拍摄计划</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/h3&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="relative"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="timeline-item relative pb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="timeline-dot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-red-50 rounded-lg p-6 shadow-md hover-scale ml-auto w-full md:w-5/12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex justify-between items-start mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4 class="text-lg font-semibold text-gray-800"&gt;2026.3.1&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded"&gt;转场&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;驻马店前往香港&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500 mt-2"&gt;人员：田梦圆、杨昕钥、肖睿、马依&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500"&gt;时间：9:03-14:53&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500"&gt;任务：下午到达香港，白天补觉，晚上拍摄夜景&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="timeline-item relative pb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="timeline-dot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-blue-50 rounded-lg p-6 shadow-md hover-scale mr-auto w-full md:w-5/12 md:text-right"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex justify-between items-start mb-4 md:flex-row-reverse"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4 class="text-lg font-semibold text-gray-800"&gt;2026.3.2&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded"&gt;拍摄&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;在香港拍摄&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500 mt-2"&gt;任务：白天酒店补觉，晚上拍摄夜景&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="timeline-item relative pb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="timeline-dot"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div class="bg-green-50 rounded-lg p-6 shadow-md hover-scale ml-auto w-full md:w-5/12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div class="flex justify-between items-start mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h4 class="text-lg font-semibold text-gray-800"&gt;2026.3.3&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded"&gt;杀青&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-gray-600"&gt;坚尼地城白天拍摄，下午返回&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500 mt-2"&gt;时间：早8点坚尼地城拍摄&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500"&gt;团队返回：18:38-22:36（厦门）&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;p class="text-sm text-gray-500"&gt;演员返回：各自返程&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 交通安排 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;section id="travel" class="py-16 bg-gray-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="container mx-auto px-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="text-3xl font-bold text-center mb-12 text-gray-800"&gt;交通安排&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- 交通统计卡片 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white rounded-lg p-6 shadow-md hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center justify-between mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;总交通费&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="text-2xl"&gt;✈️&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-3xl font-bold text-red-600"&gt;¥3,722&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-sm text-gray-600 mt-2"&gt;涵盖所有人员往返&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white rounded-lg p-6 shadow-md hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center justify-between mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;往返地点&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="text-2xl"&gt;🚄&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-lg text-gray-800"&gt;驻马店 ↔ 香港&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-sm text-gray-600 mt-2"&gt;9:03-14:53（火车）&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-white rounded-lg p-6 shadow-md hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center justify-between mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 class="text-lg font-semibold text-gray-800"&gt;自费人员&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="text-2xl"&gt;💳&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-lg text-gray-800"&gt;5人&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="text-sm text-gray-600 mt-2"&gt;导演、DP、演员等&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- 详细交通表 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="bg-white rounded-lg shadow-md overflow-hidden hover-scale"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-gray-800 text-white px-6 py-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h3 class="text-xl font-semibold"&gt;详细交通信息&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="overflow-x-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;table class="min-w-full"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;thead class="bg-gray-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;人员&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;路线&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;费用&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;备注&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;tbody class="bg-white divide-y divide-gray-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap font-medium"&gt;田梦圆&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;驻马店 ↔ 香港&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;¥852&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;9:03-14:53&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap font-medium"&gt;杨昕钥&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;贵阳 → 驻马店&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;¥643&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;往返香港自费&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap font-medium"&gt;张歆若&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;贵阳 → 驻马店&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;¥643&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;不去香港&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap font-medium"&gt;马依&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;厦门北 → 驻马店西&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;¥677&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;往返香港自费&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap font-medium"&gt;黄子芸&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;厦门北 → 驻马店西&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;¥677&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;不去香港&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap font-medium"&gt;肖睿&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;成都东 → 驻马店西&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;¥634&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;往返香港自费&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap font-medium"&gt;董洁&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;通渭站 → 驻马店西&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;¥448&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;不去香港&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap font-medium"&gt;武冰琪&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;邯郸 → 驻马店&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;自费&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;演员自费&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;tr class="hover:bg-gray-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 whitespace-nowrap font-medium"&gt;刘昱辰&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;遵义 → 驻马店&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4"&gt;自费&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;td class="px-6 py-4 text-sm text-gray-600"&gt;DP自费&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- 页脚 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;footer class="bg-gray-900 text-white py-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="container mx-auto px-6 text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-gray-400"&gt;&amp;copy; 2026 《深水埗》制作组. 专业电影制作管理系统.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-gray-500 text-sm mt-2"&gt;预算总计：¥24,430 | 拍摄周期：11天 | 跨地区拍摄&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/footer&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 移动端菜单切换</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const mobileMenuBtn = document.getElementById('mobile-menu-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const mobileMenu = document.getElementById('mobile-menu');</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>mobileMenuBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>mobileMenu.classList.toggle('-translate-x-full');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 平滑滚动</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.querySelectorAll('a[href^="#"]').forEach(anchor =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>anchor.addEventListener('click', function (e) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>e.preventDefault();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const target = document.querySelector(this.getAttribute('href'));</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (target) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>target.scrollIntoView({</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>behavior: 'smooth',</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>block: 'start'</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// 关闭移动端菜单</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>mobileMenu.classList.add('-translate-x-full');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 部门筛选</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const deptButtons = document.querySelectorAll('.dept-btn');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const crewCards = document.querySelectorAll('.crew-card');</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>deptButtons.forEach(btn =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>btn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const dept = btn.getAttribute('data-dept');</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 更新按钮状态</p>
+<p class="p1"><span class="Apple-converted-space">                </span>deptButtons.forEach(b =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>b.classList.remove('active', 'bg-amber-500', 'text-white');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>b.classList.add('bg-gray-300', 'text-gray-700');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>btn.classList.add('active', 'bg-amber-500', 'text-white');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>btn.classList.remove('bg-gray-300', 'text-gray-700');</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// 显示/隐藏人员卡片</p>
+<p class="p1"><span class="Apple-converted-space">                </span>crewCards.forEach(card =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (dept === 'all' || card.getAttribute('data-dept') === dept) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>card.style.display = 'block';</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>card.classList.add('fade-in');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>card.style.display = 'none';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 预算饼图</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ctx = document.getElementById('budgetChart');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (ctx) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const budgetChart = new Chart(ctx, {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: 'pie',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>data: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>labels: ['交通费用', '设备费用', '场地服装道具', '餐水住宿', '其他费用'],</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>datasets: [{</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>data: [3722, 6000, 7100, 5000, 3608],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>backgroundColor: [</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'#ef4444',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'#3b82f6',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'#10b981',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'#f59e0b',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>'#8b5cf6'</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>borderWidth: 2,</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>borderColor: '#ffffff'</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}]</p>
+<p class="p1"><span class="Apple-converted-space">                </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                </span>options: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>responsive: true,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>plugins: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>legend: {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>position: 'bottom',</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>labels: {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>padding: 20,</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>font: {</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>size: 14</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>},</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>tooltip: {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>callbacks: {</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>label: function(context) {</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>const label = context.label || '';</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>const value = context.parsed;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>const total = context.dataset.data.reduce((a, b) =&gt; a + b, 0);</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>const percentage = ((value / total) * 100).toFixed(1);</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>return `${label}: ¥${value} (${percentage}%)`;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 滚动动画</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const observerOptions = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>threshold: 0.1,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>rootMargin: '0px 0px -50px 0px'</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const observer = new IntersectionObserver((entries) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>entries.forEach(entry =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (entry.isIntersecting) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>entry.target.classList.add('fade-in');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}, observerOptions);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 观察所有需要动画的元素</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.querySelectorAll('.hover-scale').forEach(el =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>observer.observe(el);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 页面加载完成后的初始化</p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.addEventListener('load', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// 所有卡片添加淡入动画</p>
+<p class="p1"><span class="Apple-converted-space">            </span>document.querySelectorAll('.fade-in').forEach((el, index) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>el.style.animationDelay = `${index * 0.1}s`;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 导航栏滚动效果</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let lastScroll = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const nav = document.querySelector('nav');</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>window.addEventListener('scroll', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const currentScroll = window.pageYOffset;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (currentScroll &gt; 100) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>nav.classList.add('bg-white/95', 'backdrop-blur-sm');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>nav.classList.remove('bg-white/95', 'backdrop-blur-sm');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>lastScroll = currentScroll;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
